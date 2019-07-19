@@ -1,5 +1,11 @@
-# curso-nanoservices
+## Guia de estudo
+* Estudos sobre Aws
+## Sobre
 
-# Material de estudos para o meu curso de Nanoservices
+* Projeto criado com intuito acadêmico.
+* Ele é apenas um material de estudo e não deve ser usado em produção.
 
-https://www.udemy.com/nanosservicos-serverless-orientados-a-eventos/
+## Instalação
+
+Para instalar é simples, apenas baixe utiliznado o botão Download ZIP ai do lado, ou clone este repositório.
+
