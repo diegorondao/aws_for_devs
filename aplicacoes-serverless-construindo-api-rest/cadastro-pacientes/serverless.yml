@@ -1,5 +1,8 @@
 service: cadastro-pacientes
 frameworkVersion: '2'
+plugins:
+  - serverless-offline
+  
 provider:
   name: aws
   runtime: nodejs12.x
@@ -7,19 +10,74 @@ provider:
 
 # you can overwrite defaults here
   stage: awslab
-  region: us-east-1 
+  region: us-east-1
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+      Resource: arn:aws:dynamodb:us-east-1:948502077127:table/PACIENTES
 
 functions:
-  listaPacientes:
-    handler: handler.listarPacientes  
+  listarTodosPacientes:
+    handler: handler.listarTodosPacientes  
     events:
       - http:
           path: pacientes
           method: get
   
+  listarFiltroPacientes:
+    handler: handler.listarFiltroPacientes  
+    events:
+      - http:
+          path: pacientes/filter
+          method: get
+
   obterPacientes:
     handler: handler.obterPacientes  
     events:
       - http:
           path: pacientes/{pacienteId}
           method: get
+
+  cadastrarPaciente:
+    handler: handler.cadastrarPaciente
+    events:
+      - http:
+          path: pacientes
+          method: post
+
+  atualizarPaciente:
+    handler: handler.atualizarPaciente
+    events:
+      - http:
+          path: pacientes/{pacienteId}
+          method: put
+
+  excluirPaciente:
+    handler: handler.excluirPaciente
+    events:
+      - http:
+          path: pacientes/{pacienteId}
+          method: delete
+
+resources:
+  Resources:
+    PacientesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PACIENTES
+        AttributeDefinitions:
+          - AttributeName: paciente_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: paciente_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
