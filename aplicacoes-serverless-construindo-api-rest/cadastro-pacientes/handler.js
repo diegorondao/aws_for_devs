@@ -81,36 +81,30 @@ try {
 };
 
 module.exports.obterPacientes = async (event) => {
-  // try {
-     const { pacienteId } = event.pathParameters;
+  try {
+    const { pacienteId } = event.pathParameters;
      
-     const data = await dynamoDb
+    const data = await dynamoDb
      .get({
        ...params,
        Key: {
          paciente_id: pacienteId,
         },
       });
-      
-       return {
-        statusCode: 200,
-        body: JSON.stringify(pacienteId, null, 2),
-        };
 
-    // if (!data.Item) {
-    //   return {
-    //     statusCode: 404,
-    //     body: JSON.stringify({ error: "Paciente não existe" }, null, 2),
-    //   };
-    // }
+    if (!data.Item) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: "Paciente não existe" }, null, 2),
+      };
+    }
 
-  //   const paciente = data.Item;
-
-  //   return {
-  //     statusCode: 200,
-  //     body: JSON.stringify(paciente, null, 2),
-  //   };
-  // } catch (err) {
+    const paciente = data.Item;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(paciente, null, 2),
+    };
+  } catch (err) {
     console.log("Error", err);
     return {
       statusCode: err.statusCode ? err.statusCode : 500,
@@ -119,7 +113,7 @@ module.exports.obterPacientes = async (event) => {
         message: err.message ? err.message : "Unknown error",
       }),
     };
-  // }
+  }
 };
 
 module.exports.cadastrarPaciente = async (event) => {
