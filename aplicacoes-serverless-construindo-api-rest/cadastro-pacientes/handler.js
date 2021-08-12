@@ -26,3 +26,4 @@ module.exports.listarPacientes = async event => {
     body: JSON.stringify(paciente, null, 2 )
   }
  }
+asadsada
