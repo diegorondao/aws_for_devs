@@ -1,4 +1,4 @@
-## _Amazon ECS: Gerenciando appsem um contêineres no EC2 Container Service._
+## _Amazon ECS: Gerenciando app em um contêineres no EC2 Container Service._
 
 ## Features
 
